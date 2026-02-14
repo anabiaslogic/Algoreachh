@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algoreachh · gentle growth</title>
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ========== GLOBAL & VARIABLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* ---- BABY PASTELS: blue, pink, purple ---- */
+    :root {
+      --baby-blue: #a7d0f0;       /* soft blue */
+      --baby-pink: #fbc1c1;        /* soft pink */
+      --baby-purple: #d1b3e8;       /* soft lavender */
+      --white: #ffffff;
+      --bg-light: #faf7fd;          /* very light purple tint */
+      --gray-600: #5b5b7a;
+      --gray-800: #2d2d4a;
+      --shadow: 0 20px 30px -10px rgba(160, 140, 200, 0.15);
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--gray-800);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    h2 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #7799cc, #c78fb3, #b28bd0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .section-subhead {
+      font-size: 1.2rem;
+      color: var(--gray-600);
+      max-width: 700px;
+      margin-bottom: 3rem;
+    }
+
+    /* ----- ANIMATIONS (light & smooth) ----- */
+    @keyframes floatSoft {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      animation: fadeInUp 0.7s ease-out forwards;
+    }
+
+    .hover-lift {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .hover-lift:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 25px 35px -10px rgba(140, 120, 180, 0.2);
+    }
+
+    /* ----- HEADER (logo + nav) ----- */
+    header {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 15px rgba(0,0,0,0.02);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 90px; /* Slightly taller to accommodate larger logo */
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Logo + brand name together */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-img {
+      height: 70px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo-placeholder-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #d1b3e8; /* Baby purple color */
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--gray-600);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #b280c5;
+    }
+
+    .btn-outline {
+      border: 2px solid #b9a5d4;
+      background: transparent;
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: 600;
+      color: var(--gray-800);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-outline:hover {
+      background: #d9c5fc;
+      border-color: #d9c5fc;
+    }
+
+    /* ----- HERO ----- */
+    .hero {
+      padding: 60px 0 40px;
+    }
+
+    .hero-grid {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .hero-content {
+      flex: 1 1 400px;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .hero-badge {
+      background: var(--baby-pink);
+      color: #5e4b6e;
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    .hero-content h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(125deg, #7196c7, #e6a0a0, #b692e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 24px;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      color: var(--gray-600);
+      max-width: 550px;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--baby-purple);
+      border: none;
+      padding: 14px 38px;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #2d2d4a;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      background: #c7a8e6;
+    }
+
+    .hero-image {
+      flex: 1 1 300px;
+      background: linear-gradient(145deg, #fae1f0, #d9e4fc, #ebd5fc);
+      border-radius: 30px;
+      padding: 30px 20px;
+      text-align: center;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--baby-purple);
+      animation: floatSoft 6s infinite ease-in-out;
+    }
+
+    .hero-image-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-image-stars {
+      font-size: 2rem;
+      color: var(--baby-purple);
+      letter-spacing: 8px;
+    }
+
+    .hero-image-message {
+      font-size: 1.8rem;
+      font-weight: 600;
+      background: linear-gradient(125deg, #7196c7, #f7b2b2, #b692e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.3;
+    }
+
+    .hero-image-sub {
+      font-size: 1.2rem;
+      color: var(--gray-600);
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    .hero-image-est {
+      font-size: 1rem;
+      color: var(--baby-purple);
+      font-weight: 500;
+      margin-top: 8px;
+    }
+
+    /* ----- ABOUT US ----- */
+    .about-grid {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+      flex-wrap: wrap;
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(4px);
+      border-radius: 48px;
+      padding: 48px 40px;
+      box-shadow: var(--shadow);
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .about-text {
+      flex: 2 1 300px;
+    }
+
+    .about-text h3 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #fbc1c1; /* Baby pink color */
+      font-weight: 700;
+    }
+
+    .about-text p {
+      margin-bottom: 20px;
+      color: var(--gray-600);
+      font-size: 1.1rem;
+    }
+
+    .about-stats {
+      flex: 1 1 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .stat-item {
+      text-align: center;
+      background: white;
+      padding: 24px 12px;
+      border-radius: 32px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+    }
+
+    .stat-number {
+      font-size: 2.6rem;
+      font-weight: 800;
+      background: linear-gradient(145deg, var(--baby-blue), var(--baby-pink), var(--baby-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ----- SERVICES / WHAT WE DO -  ----- */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .service-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(4px);
+      padding: 36px 28px;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    .service-card:hover {
+      background: white;
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 30px -8px #c7a8e6;
+      border-color: var(--baby-purple);
+    }
+
+    .service-icon {
+      background: var(--baby-blue);
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      color: #2d2d4a;
+      transition: all 0.3s ease;
+    }
+    .service-card:hover .service-icon {
+      background: var(--baby-purple);
+      transform: scale(1.1);
+    }
+
+    .service-card h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--gray-800);
+      transition: color 0.3s ease;
+    }
+    .service-card:hover h3 {
+      color: var(--baby-purple);
+    }
+
+    .service-card p {
+      color: var(--gray-600);
+      transition: color 0.3s ease;
+    }
+    .service-card:hover p {
+      color: var(--gray-800);
+    }
+
+    /* ----- WHY US (unique value props) - UPDATED WITH ENHANCED HOVER EFFECTS ----- */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .why-item {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(4px);
+      padding: 32px 24px;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    .why-item:hover {
+      background: white;
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 30px -8px #c7a8e6;
+      border-color: var(--baby-purple);
+    }
+
+    .why-item .icon-circle {
+      background: var(--baby-pink);
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 2rem;
+      color: #3f3f62;
+      transition: all 0.3s ease;
+    }
+    .why-item:hover .icon-circle {
+      background: var(--baby-purple);
+      transform: scale(1.1);
+    }
+
+    .why-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: var(--gray-800);
+      transition: color 0.3s ease;
+    }
+    .why-item:hover h3 {
+      color: var(--baby-purple);
+    }
+
+    .why-item p {
+      color: var(--gray-600);
+      transition: color 0.3s ease;
+    }
+    .why-item:hover p {
+      color: var(--gray-800);
+    }
+
+    /* ----- CONTACT SECTION ----- */
+    .contact-section {
+      background: rgba(240, 230, 255, 0.5);
+      backdrop-filter: blur(4px);
+    }
+
+    .contact-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .contact-card {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(4px);
+      padding: 32px 36px;
+      border-radius: 48px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      transition: 0.2s;
+      border: 2px solid transparent;
+    }
+    .contact-card:hover {
+      border-color: var(--baby-purple);
+      background: white;
+    }
+
+    .contact-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--baby-blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      color: #2d2d4a;
+    }
+
+    .contact-content {
+      flex: 1;
+    }
+
+    .contact-content h3 {
+      font-size: 2rem;
+      margin-bottom: 4px;
+      color: var(--gray-800);
+    }
+
+    .contact-content p {
+      font-size: 1.2rem;
+      color: var(--gray-600);
+      margin-bottom: 10px;
+    }
+
+    .contact-link {
+      display: inline-block;
+      background: var(--baby-pink);
+      padding: 8px 24px;
+      border-radius: 60px;
+      font-weight: 600;
+      color: #2d2d4a;
+      text-decoration: none;
+      transition: 0.2s;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .contact-link:hover {
+      background: #f8aaaa;
+      transform: scale(1.02);
+    }
+
+    /* gentle bold reach moved to footer of contact section */
+    .contact-tagline {
+      text-align: center;
+      margin-top: 48px;
+      font-size: 1.2rem;
+      color: var(--gray-600);
+      font-style: italic;
+    }
+    
+    .contact-tagline span {
+      background: linear-gradient(125deg, #7196c7, #f7b2b2, #b692e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 500;
+    }
+
+    /* ----- FOOTER ----- */
+    footer {
+      background: #ded1f0;
+      color: #2d2d4a;
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .footer-icons a {
+      color: #4a3f66;
+      margin: 0 12px;
+      font-size: 1.5rem;
+      transition: opacity 0.2s;
+    }
+    .footer-icons a:hover {
+      opacity: 0.6;
+    }
+
+    @media (max-width: 700px) {
+      .header-inner { flex-direction: column; height: auto; padding: 16px 0; gap: 12px; }
+      .nav-links { flex-wrap: wrap; justify-content: center; gap: 1.2rem; }
+      .hero-content h1 { font-size: 2.5rem; }
+      .contact-card { flex-direction: column; text-align: center; }
+      .logo-img { height: 60px; } /* Slightly smaller on mobile */
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-area">
+        <!-- Logo + brand name together with larger logo -->
+        <div class="logo-container">
+          <!-- Your logo image - now 70px -->
+          <img src="image.JPG" alt="Algoreachh logo" class="logo-img">
+          <span class="logo-placeholder-text">Algoreachh</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#">Home</a>
+        <a href="#about">About</a>
+        <a href="#what-we-do">What we do</a>
+        <a href="#why-us">Why us</a>
+        <a href="#contact">Contact</a>
+        <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});">Let's talk</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO with "brand new, already growing" message -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="hero-badge"><i class="fas fa-feather" style="margin-right: 8px;"></i> new · growing · intentional</span>
+          <h1>Where algorithms meet <br>a soft touch.</h1>
+          <p>We blend data with creativity to grow your brand — calmly, deliberately, beautifully.</p>
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});">Start a conversation</button>
+            <button class="btn-outline" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'});">Learn more <i class="fas fa-arrow-right" style="margin-left: 8px;"></i></button>
+          </div>
+        </div>
+        
+        <!-- Hero box with new content (no photo) -->
+        <div class="hero-image">
+          <div class="hero-image-content">
+            <div class="hero-image-stars">✦ ✦ ✦</div>
+            <div class="hero-image-message">brand new,<br>already growing</div>
+            <div class="hero-image-sub">let's grow together</div>
+            <div class="hero-image-est">Algoreachh · est. 2026</div>
+            <div class="hero-image-stars" style="margin-top: 8px;">✦ ✦ ✦</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT US SECTION with your personal story (rocket removed) -->
+    <section id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-text">
+            <h3>About Algoreachh</h3>
+            <p><strong>Hey, I'm Hammad Shelia</strong> — a digital marketer and startup founder who loves helping brands grow online. With a diploma in Digital Marketing and hands-on experience in social media, content, and branding, I turn ideas into creative, scroll-stopping strategies.</p>
+            <p>I started this startup with one simple belief: digital marketing doesn't have to be loud or overwhelming to work. Our soft, pastel vibe reflects how we approach things — calm, human, and always backed by smart, data-driven decisions.</p>
+            <p>Whether you're a startup or an established name, we tailor strategies that respect your audience and deliver results. I work independently as a strategist, creative, and analyst — bringing a fresh, well-rounded perspective to every brand I collaborate with.</p>
+          </div>
+          <div class="about-stats">
+            <div class="stat-item hover-lift">
+              <div class="stat-number">5+</div>
+              <p>campaigns delivered</p>
+            </div>
+            <div class="stat-item hover-lift">
+              <div class="stat-number">100%</div>
+              <p>client satisfaction</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE DO - with enhanced hover effects -->
+    <section id="what-we-do">
+      <div class="container">
+        <h2>What we do</h2>
+        <div class="section-subhead">Full‑funnel digital marketing tailored to your goals.</div>
+        <div class="services-grid">
+          
+          <!-- Social Media Management -->
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-hashtag"></i></div>
+            <h3>Social Media Management</h3>
+            <p>Planning, creating, and managing content that keeps your brand active and engaging.</p>
+          </div>
+          
+          <!-- Content & Design -->
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+            <h3>Content & Design</h3>
+            <p>Scroll-stopping visuals, posts, and creatives that match your brand vibe.</p>
+          </div>
+          
+          <!-- Brand Strategy -->
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-compass"></i></div>
+            <h3>Brand Strategy</h3>
+            <p>Helping you define your voice, positioning, and overall digital presence.</p>
+          </div>
+          
+          <!-- Digital Marketing Campaigns -->
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+            <h3>Digital Marketing Campaigns</h3>
+            <p>Data-driven campaigns focused on reach, engagement, and real growth.</p>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US section - with enhanced hover effects -->
+    <section id="why-us" style="background-color: rgba(230, 220, 250, 0.3);">
+      <div class="container">
+        <h2>Why Choose Us</h2>
+        <div class="section-subhead">No fluff, no noise — just intentional, human-centered marketing.</div>
+        <div class="why-grid">
+          
+          <!-- Calm, Not Cluttered -->
+          <div class="why-item">
+            <div class="icon-circle"><i class="fas fa-spa"></i></div>
+            <h3>Calm, Not Cluttered</h3>
+            <p>We believe marketing should feel clean, human, and easy to connect with — not loud or overwhelming.</p>
+          </div>
+          
+          <!-- Creative + Strategic -->
+          <div class="why-item">
+            <div class="icon-circle"><i class="fas fa-magic"></i></div>
+            <h3>Creative + Strategic</h3>
+            <p>You get the perfect mix of aesthetic visuals and smart, data-backed decisions.</p>
+          </div>
+          
+          <!-- Personalized Attention -->
+          <div class="why-item">
+            <div class="icon-circle"><i class="fas fa-heart"></i></div>
+            <h3>Personalized Attention</h3>
+            <p>Since you work directly with me, every brand gets focused, one-on-one effort.</p>
+          </div>
+          
+          <!-- Growth-Focused Approach -->
+          <div class="why-item">
+            <div class="icon-circle"><i class="fas fa-seedling"></i></div>
+            <h3>Growth-Focused Approach</h3>
+            <p>Everything we do is designed to not just look good, but actually bring real results.</p>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT US - with updated email and gentle bold reach moved here -->
+    <section id="contact" class="contact-section">
+      <div class="container">
+        <h2>Contact us</h2>
+        <div class="section-subhead">Reach out through your favorite channel.</div>
+        <div class="contact-grid">
+          
+          <!-- EMAIL card - updated to algoreachh@gmail.com -->
+          <div class="contact-card hover-lift">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div class="contact-content">
+              <h3>Email</h3>
+              <p>For proposals, questions, or just to say hi</p>
+              <a href="mailto:algoreachh@gmail.com" class="contact-link">algoreachh@gmail.com</a>
+            </div>
+          </div>
+          
+          <!-- FIVERR card - your actual link -->
+          <div class="contact-card hover-lift">
+            <div class="contact-icon"><i class="fas fa-briefcase"></i></div>
+            <div class="contact-content">
+              <h3>Fiverr</h3>
+              <p>Check my gigs and client feedback</p>
+              <a href="https://www.fiverr.com/hammad_sheliaa?public_mode=true&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAP9L81leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAadrUYPH-nPz0DeJeNW42e-5Wg_rm8tcrqgDcdMMbn3HwK4t9Wx6emEntSEjvw_aem_FY6KDhC3dccXASPX3-aV_g" class="contact-link" target="_blank" rel="noopener noreferrer">hammad_sheliaa on Fiverr</a>
+            </div>
+          </div>
+          
+          <!-- INSTAGRAM card - your actual link -->
+          <div class="contact-card hover-lift">
+            <div class="contact-icon"><i class="fab fa-instagram"></i></div>
+            <div class="contact-content">
+              <h3>Instagram</h3>
+              <p>Behind the scenes & latest work</p>
+              <a href="https://www.instagram.com/algoreachh?igsh=MWxmMDhsbHRhdDBlYg==" class="contact-link" target="_blank" rel="noopener noreferrer">@algoreachh</a>
+            </div>
+          </div>
+
+        </div>
+        
+        <!-- gentle · bold · reach moved here, below contact cards -->
+        <div class="contact-tagline">
+          <span>gentle · bold · reach</span>
+        </div>
+        
+        <p style="text-align: center; margin-top: 24px; color: var(--gray-600); font-style: italic;">
+          <i class="fas fa-heart" style="color: #f7b2b2;"></i> no forms — just real human contact
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-icons">
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+      <p style="opacity: 0.8; margin-top:20px;">&copy; 2026 Algoreachh. All rights reserved.</p>
+<p style="opacity: 0.8; margin-top:20px;">&copy; Created by KeyTech Global.</p>
+    </div>
+  </footer>
+</body>
+</html>
